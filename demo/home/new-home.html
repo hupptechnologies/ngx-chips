@@ -1,0 +1,16 @@
+<main>
+    <div class="home-container">
+    	<div>
+            <h3>An input which requires all tags to be valid email</h3>
+            <tag-input 	[ngModel]="items"
+            			[addOnPaste]="true"
+						[pasteSplitPattern]="','"
+                       	[errorMessages]="errorMessages"
+                       	[validators]="validators"
+                       	>
+                <tag-input-dropdown [autocompleteItems]="['@item$', 'item']">
+                </tag-input-dropdown>
+            </tag-input>
+        </div>
+    </div>
+</main>

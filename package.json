@@ -1,11 +1,11 @@
 {
-  "name": "ngx-chips",
+  "name": "ngx-chips-validation",
   "version": "2.0.0-beta.0",
   "description": "Tag Input component for Angular",
   "scripts": {
     "release": "npm run build && npm publish dist",
     "postrelease": "rm -rf dist",
-    "build": "ng-packagr -p package.json && mkdir ./dist/dist && cp -R ./modules/core/styles ./dist/core/styles && cp ./dist/bundles/ngx-chips.umd.js ./dist/dist/ngx-chips.bundle.js",
+    "build": "ng-packagr -p package.json && mkdir ./dist/dist && cp -R ./modules/core/styles ./dist/core/styles && cp ./dist/bundles/ngx-chips-validation.umd.js ./dist/dist/ngx-chips-validation.bundle.js",
     "server": "webpack-dev-server --config webpack.demo.js --inline --colors --progress --port 3010 --content-base demo",
     "start": "npm run server",
     "test": "karma start karma.conf.js",

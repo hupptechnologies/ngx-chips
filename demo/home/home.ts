@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Http, Response} from '@angular/http';
 import {filter, map} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
@@ -8,7 +8,7 @@ import {Observable, of} from 'rxjs';
 @Component({
     selector: 'app',
     styleUrls: ['./home.scss'],
-    templateUrl: './home.html'
+    templateUrl: './new-home.html'
 })
 export class Home {
     form: FormGroup;
@@ -21,7 +21,7 @@ export class Home {
 
     disabled = true;
 
-    items = ['Javascript', 'Typescript'];
+    public items:any = [];
 
     inputText = 'text';
 
@@ -91,7 +91,9 @@ export class Home {
     }
 
     public transform(value: string): Observable<object> {
-        const item = {display: `@${value}`, value: `@${value}`};
+    	console.log(value);
+        // const item = {display: `@${value}`, value: `@${value}`};
+        const item = {display: value, value: value.toLowerCase()};
         return of(item);
     }
 
@@ -132,13 +134,27 @@ export class Home {
         isNan: 'Please only add numbers'
     };
 
-    public validators = [this.startsWithAt, this.endsWith$];
+    // public validators = [this.startsWithAt, this.endsWith$];
+
+    private validEmail(control: FormControl) {
+    	let emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (!emailRegex.test(control.value)) {
+            return {
+                'invalidEmail': true
+            };
+        }
+
+        return null;
+    }
+
+    public validators = [this.validEmail]
 
     public asyncValidators = [this.validateAsync];
 
     public errorMessages = {
         'startsWithAt@': 'Your items need to start with \'@\'',
-        'endsWith$': 'Your items need to end with \'$\''
+        'endsWith$': 'Your items need to end with \'$\'',
+        'invalidEmail': 'Enter valid email address'
     };
 
     public onAdding(tag): Observable<any> {
@@ -157,13 +173,5 @@ export class Home {
         const confirm = window.confirm('Do you really want to add this tag?');
         return of(tag)
             .pipe(filter(() => confirm));
-    }
-
-    public insertInputTag(): void {
-        if (this.inputText) {
-            this.items.push(this.inputText);
-
-            this.inputText = '';
-        }
     }
 }

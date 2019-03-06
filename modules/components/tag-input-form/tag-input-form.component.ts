@@ -106,6 +106,8 @@ export class TagInputForm implements OnInit, OnChanges {
 
     private readonly item: FormControl = new FormControl({value: '', disabled: this.disabled});
 
+    private submitted: boolean = false;
+
     ngOnInit() {
         this.item.setValidators(this.validators);
         this.item.setAsyncValidators(this.asyncValidators);
@@ -155,8 +157,12 @@ export class TagInputForm implements OnInit, OnChanges {
      * @name hasErrors
      */
     public hasErrors(): boolean {
-        const {dirty, value, valid} = this.form;
-        return dirty && value.item && !valid;
+    	// console.log('called hasErrors', this.item);
+    	const { touched, errors } = this.item;
+
+        const { dirty, value, valid} = this.form;
+        // return dirty && value.item && !valid;
+        return (this.item.errors && this.submitted && !valid) ? true : false;
     }
 
     /**
@@ -194,11 +200,11 @@ export class TagInputForm implements OnInit, OnChanges {
      * @param $event
      */
     public onKeyDown($event) {
+    	this.submitted = false;
         this.inputText = this.value.value;
-        if ($event.key === 'Enter') {
+        if ($event.key === 'Enter' || $event.keyCode === 32 || $event.keyCode === 188 || $event.keyCode === 13) {
             this.submit($event);
-
-            this.inputText = '';
+            // this.inputText = '';
         }
         return this.onKeydown.emit($event);
     }
@@ -217,8 +223,11 @@ export class TagInputForm implements OnInit, OnChanges {
      */
     public submit($event: any): void {
         $event.preventDefault();
+        this.submitted = true;
         if (this.form.valid) {
             this.onSubmit.emit($event);
+            this.form.reset();
+            this.submitted = false;
         }
     }
 }

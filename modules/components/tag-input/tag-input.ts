@@ -509,6 +509,14 @@ export class TagInputComponent extends TagInputAccessor implements OnInit, After
      * @param model
      */
     public createTag = (model: TagModel): TagModel => {
+
+    	if (typeof model === 'string') {
+    		model = model.toLowerCase();
+    	}else {
+    		model.display = model.display.toLowerCase();
+    		model.value = model.value.toLowerCase();
+    	}
+
         const trim = (val: TagModel, key: string): TagModel => {
             return typeof val === 'string' ? val.trim() : val[key];
         };
@@ -1034,7 +1042,7 @@ export class TagInputComponent extends TagInputAccessor implements OnInit, After
         this.inputForm.onKeydown.subscribe(event => {
             this.fireEvents('keydown', event);
 
-            if (event.key === 'Backspace' && this.formValue.trim() === '') {
+            if (event.key === 'Backspace' && this.formValue && this.formValue.trim() === '') {
                 event.preventDefault();
             }
         });
