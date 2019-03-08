@@ -1,6 +1,6 @@
 {
   "name": "ngx-chips-validation",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Tag Input component for Angular",
   "scripts": {
     "release": "npm run build && npm publish dist",
