@@ -202,7 +202,7 @@ export class TagInputForm implements OnInit, OnChanges {
     public onKeyDown($event) {
     	this.submitted = false;
         this.inputText = this.value.value;
-        if ($event.key === 'Enter' || $event.keyCode === 32 || $event.keyCode === 188 || $event.keyCode === 13) {
+        if ($event.key === 'Enter' || $event.keyCode === 32 || $event.keyCode === 188 || $event.keyCode === 13 || $event.keyCode === 186 || $event.keyCode === 9) {
             this.submit($event);
             // this.inputText = '';
         }
